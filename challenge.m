@@ -1,7 +1,7 @@
 %% Computer Vision Challenge 2020 challenge.m
 
 %% Start timer here
-
+tic;
 
 %% Generate Movie
 
@@ -14,7 +14,7 @@ while loop ~= 1
 end
 
 %% Stop timer here
-elapsed_time = 0;
+elapsed_time = toc;
 
 
 %% Write Movie to Disk
