@@ -122,7 +122,7 @@ classdef ImageReader < handle
 %                  end
 %               end
                
-              
+          try    
               if obj.counter == 1
                   %if loop is not 1, then start at the
                   %start value
@@ -157,7 +157,7 @@ classdef ImageReader < handle
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
                               obj.counter = i;
-                              disp(images_L(i).name);
+                              %disp(images_L(i).name);
                               if images_L(i).name == images_L(end).name
                                   
                                   obj.counter = 0;
@@ -253,10 +253,20 @@ classdef ImageReader < handle
                       
               end
               
-
-          
+          catch
+              
+              if obj.start > length(images_L)
+                  error('Start value exceeds the number of images. Value should be within 0 and %d.', length(images_L));
+                  
+                  
+              else
+                  error('Errors occur. Check value N or syntax');
+                  
+              end
+          end
           
           end
+          
       
   end
 end
