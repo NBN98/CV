@@ -6,6 +6,10 @@ detector = vision.ForegroundDetector(...
        'NumTrainingFrames', 500, ...
        'InitialVariance', 50*50, 'MinimumBackgroundRatio', 0.7);
 
+   
+peopleDetector = vision.PeopleDetector;
+   
+   
 %to try later
 
 area = vision.BlobAnalysis(...
@@ -21,8 +25,15 @@ while hasFrame(videoSource)
      %to try later, not used here
      %fgMask = detector(frame);
      %area = blob(fgMask);
-     
-     
+     frame_people = frame;
+     %people detector
+     [bboxes,scores] = peopleDetector(frame);
+     if ~isempty(bboxes)
+        frame_people = insertObjectAnnotation(frame_people,'rectangle',bboxes,scores);
+     end
+        %figure, imshow(frame_people);
+        imshow(frame_people);
+        title('Detected people and detection scores');
      %Preprocessing before 
      frame_hsv = rgb2hsv(frame);
     % "30% more" saturation:
