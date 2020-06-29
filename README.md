@@ -1,11 +1,18 @@
 # CV
 Computer Vision Challenge SS20
 
-# 18.06.2020
-- 2.1 Path handling done and class definition almost done (loading images left)
+Method used: vision.ForegroundDetector
 
 
-# 20.06.2020
-- ImageReader in Branch V1 done (think so). Please try it out. Maybe there are some issues regarding loading and creating the left/right tensor
-- I Used cat for image concatenation to get 600x800x(N+1)*3 (maybe there is another way)
-- I Used a lot of loops for everything. Maybe you guys will find a way better method for loading the images and creating the tensor
+# Make_Video
+- Creates a Video out of the images given to it, video necessary for Method
+
+# TestDetect
+- Script that takes the video out of workspace, which needs to be created first
+- Gives it into the detector and gives back a mask of the foreground
+
+- Additional added Postprocessing to increase quality of the received mask
+
+ Insights
+- Parametertuning the method (vision.ForegroundDetector) shows impact, should be done more
+- Some frames look really good, others horrible
