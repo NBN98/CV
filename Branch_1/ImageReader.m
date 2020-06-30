@@ -84,8 +84,8 @@ classdef ImageReader < handle
 
       
            
-          function [left, right]=next(obj)
-              
+          function [left, right, joint_path_L]=next(obj)
+              joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
               images_L = dir(strcat(obj.joint_path_L, '\*.jpg'));
