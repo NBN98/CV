@@ -17,39 +17,26 @@ faceDetector = vision.CascadeObjectDetector();
 %path='C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P2L_S3\P2L_S3_C1.2\';
 path='C:\Users\rober\Downloads\P1E_S1\P1E_S1_C1\';
 path_joint = dir(strcat(path, '*.jpg'));
-    %look for the bg_img.txt file
-    background_images = textread(strcat(path,'bg_img.txt'), '%s');
-    sum_image = double(zeros(600,800,3));
-    disp(size(background_images,1));
-    N = size(background_images,1);
-    for i=1:N
-       curr_frame = double(imread(strcat(path,string(background_images{i}))));
-       sum_image= sum_image + double(1/N*(curr_frame));
-       %sum_image(:,:,1) = sum_image(:,:,1) + curr_frame(:,:,1);
-       %sum_image(:,:,2) = sum_image(:,:,2) + curr_frame(:,:,2);
-       %sum_image(:,:,3) = sum_image(:,:,3) + curr_frame(:,:,3);
-    end
-    meanBackground = uint8(sum_image); %size(background_images,1);
-    subplot(3, 3, 8);
-    imshow(meanBackground, []);
-    axis on;
-    title('mean Background', 'FontSize', fontSize, 'Interpreter', 'None');
-for counter=90:length(path_joint)
+
+for counter=1:length(path_joint)
      caption = sprintf(' %d / %d', counter, length(path_joint));
     
     %Loads all the images in the folder
     originalImage = imread(strcat(path, path_joint(counter).name));
     drawnow;
+    %look for the bg_img.txt file
+    background_images = textread(strcat(path,'bg_img.txt'), '%s');
+    sum_image = double(zeros(600,800,3));
 
-
+    subplot(3, 3, 8);
+    imshow(meanBackground, []);
+    axis on;
+    title('mean Background', 'FontSize', fontSize, 'Interpreter', 'None');
+    display(background_images);
     %if counter ==1
         % background Image is always the first image (image without any person)
         %backgroundImage = imread(strcat(path, path_joint(1).name));
-        background_hsv = rgb2hsv(meanBackground);
-        % "30% more" saturation:
-        background_hsv(:, :, 2) = background_hsv(:, :, 2) * 1.2;
-        background_hsv(background_hsv > 1) = 1;  % Limit values
-        backgroundImage = hsv2rgb(background_hsv);
+        backgroundImage = meanBackground;
     %else
         %backgroundImage = imread(strcat(path, path_joint(counter-1).name));
         %backgroundImage = imread(strcat(path, path_joint(counter-1).name));
@@ -93,30 +80,21 @@ title(strcat('Original Image', caption), 'FontSize', fontSize, 'Interpreter', 'N
 %else
 %	grayImage = originalImage;
 %end
-     %Here we can perform some pre-processing 
-     %example color saturation or something
-     frame_hsv = rgb2hsv(originalImage);
-     % "20% more" saturation:
-     frame_hsv(:, :, 2) = frame_hsv(:, :, 2) * 1.2;
-     frame_hsv(frame_hsv > 1) = 1;  % Limit values
-     originalImage = hsv2rgb(frame_hsv);
 
 % Subtract the images
-diffImage = abs(originalImage - backgroundImage);
+diffImage = abs(double(originalImage) - double(backgroundImage));
 % diffImage = ~diffImage;
-diffImage = rgb2gray(diffImage);
+
 % Display the image.
 subplot(3, 3, 3);
 imshow(diffImage, []);
 axis on;
 title('Difference Image', 'FontSize', fontSize, 'Interpreter', 'None');
 
-if counter == 90
-   disp(diffImage); 
-end
+diffImage = rgb2gray(diffImage);
 % Threshold the image.
 % try here different values
-binaryImage = diffImage >= 0.08;
+binaryImage = diffImage >=10;
 
 % Display the image.
 subplot(3, 3, 4);
@@ -124,27 +102,13 @@ imshow(binaryImage, []);
 title('Binary Image', 'FontSize', fontSize, 'Interpreter', 'None');
 
 % Take largest blob
-%binaryImage = bwareafilt(binaryImage, 1);
+binaryImage = bwareafilt(binaryImage, 1);
 
 % Fill holes. %45
 se = strel('disk', 45, 0);
+
 mask = imfill(binaryImage, 'holes');
 mask = imclose(mask, se);
-FilteredImg = medfilt2(mask, [5 5]);
-    [L, num] = bwlabel(FilteredImg);
-    %get the regions properties this can be used to get rid of the door
-    %frame section on the right
-    STATS = regionprops(L, "all");
-    removed = 0;
-    for i=1:num
-       dd= STATS(i).Area;
-       if (dd < 1000)
-           L(L==i)=0;
-           removed=removed+1;
-           num=num-1;
-           
-       end
-    end
 % % Get convex hull
 % binaryImage = bwconvhull(binaryImage);
 % Display the image.
