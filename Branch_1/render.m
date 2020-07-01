@@ -7,9 +7,13 @@ function [result, result2, mask] = render(frame,mask,bg,mode)
       
       if mode == 'foreground'
           maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
+          result=maskedRgbImage;
+          result2=frame;
           input = false;
       elseif mode == 'background'
           maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
+          result=maskedRgbImage;
+          result2=frame;
           input = false;
       elseif mode == 'overlay'
           
