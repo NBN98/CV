@@ -84,7 +84,7 @@ classdef ImageReader < handle
 
       
            
-          function [left, right, joint_path_L]=next(obj)
+          function [left, right, l]=next(obj)
               joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
@@ -93,8 +93,8 @@ classdef ImageReader < handle
               
              
               %saves the image properties to workspace
-              assignin('base','image_L',images_L);
-              assignin('base','image_R', images_R);
+              %assignin('base','image_L',images_L);
+              %assignin('base','image_R', images_R);
 
             
               % for every call, we increase the the class property counter
@@ -140,12 +140,13 @@ classdef ImageReader < handle
                               obj.counter = i;
                               
                           end
-                          assignin('base','ImageArray_L', ImageArray_L);
-                          assignin('base','ImageArray_R', ImageArray_R);
+                          l=obj.loop;
+                          %assignin('base','ImageArray_L', ImageArray_L);
+                          %assignin('base','ImageArray_R', ImageArray_R);
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                           right=cat(3, ImageArray_R{:});
-                          assignin('base','left', left);
-                          assignin('base','right', right);
+                          %assignin('base','left', left);
+                          %assignin('base','right', right);
                           
                       % if start is not zero    
                       else
@@ -163,6 +164,8 @@ classdef ImageReader < handle
                                   obj.counter = 0;
                                   i=obj.counter;
                                   obj.loop=1;
+                                  %l = obj.loop;
+                                  %disp(obj.loop);
                                   
                                   
 %                                   assignin('base','ImageArray_L', ImageArray_L);
@@ -180,13 +183,13 @@ classdef ImageReader < handle
                               end
                               
                           end
-                          
-                            assignin('base','ImageArray_L', ImageArray_L);
-                            assignin('base','ImageArray_R', ImageArray_R);
+                            l=obj.loop;
+                            %assignin('base','ImageArray_L', ImageArray_L);
+                            %assignin('base','ImageArray_R', ImageArray_R);
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                             right=cat(3, ImageArray_R{:});
-                            assignin('base','left', left);
-                            assignin('base','right', right);
+                            %assignin('base','left', left);
+                            %assignin('base','right', right);
                       end
                       
                       % if loop is equal to 1, start at the beginning even
@@ -201,14 +204,16 @@ classdef ImageReader < handle
                           obj.counter = i;
                           
                           obj.loop = 0;     %reset the loop value
+                          %l = obj.loop;
                           %disp(obj.loop)
                       end
-                      assignin('base','ImageArray_L', ImageArray_L);
-                      assignin('base','ImageArray_R', ImageArray_R);
+                      l=obj.loop
+                      %assignin('base','ImageArray_L', ImageArray_L);
+                      %assignin('base','ImageArray_R', ImageArray_R);
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                       right=cat(3, ImageArray_R{:});
-                      assignin('base','left', left);
-                      assignin('base','right', right);
+                      %assignin('base','left', left);
+                      %assignin('base','right', right);
                   end
                   
                   
@@ -244,12 +249,13 @@ classdef ImageReader < handle
                       end
                       
                   end
-                  assignin('base','ImageArray_L', ImageArray_L);
-                  assignin('base','ImageArray_R', ImageArray_R);
+                  l=obj.loop;
+                  %assignin('base','ImageArray_L', ImageArray_L);
+                  %assignin('base','ImageArray_R', ImageArray_R);
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                   right=cat(3, ImageArray_R{:});
-                  assignin('base','left', left);
-                  assignin('base','right', right);
+                  %assignin('base','left', left);
+                  %assignin('base','right', right);
                       
               end
               
@@ -264,6 +270,7 @@ classdef ImageReader < handle
                   
               end
           end
+          
           
           end
           

@@ -1,5 +1,5 @@
 %% Computer Vision Challenge 2020 config.m
-
+fontSize = 20;
 %% Generall Settings
 % Group number: 21
  group_number = 21;
@@ -20,13 +20,12 @@ src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vi
  R =3;
 
 % Choose a start point
-start = randi(1000);
+start = 40;
 
 % Choose the number of succseeding frames
 N = 5;
 
-%ir = ImageReader(src, L, R, start, N);
-%[lwft right]=ir.next()
+
 
 %% Output Settings
 % Output Path

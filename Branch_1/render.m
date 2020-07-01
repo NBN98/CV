@@ -16,7 +16,6 @@ function [result, result2, mask] = render(frame,mask,bg,mode)
           input = false;
           
       elseif mode == 'substitute'
-          disp('gg');
           maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
           rgbImage=frame; %imread('C:\Users\noahb\Documents\object_tracking\img\00004384.jpg');
           maskedImage=maskedRgbImage;

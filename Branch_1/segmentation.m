@@ -1,85 +1,100 @@
-function [mask, backgroundImage] = segmentation(left,right, path)
+function [mask, backgroundImage] = segmentation(left,right)
 % Add function description here
 %
 %
 
 %% Loads the bg images of the txt file
-folder = path;
-
-if folder == 0
-	% Clicked cancel.  Exit program.
-	return;
-end
-
-% Check if folder exists
-if ~isdir(folder)
-	errorMessage = sprintf('Folder does not exist:\n%s', folder);
-	uiwait(warndlg(errorMessage));
-	return;	
-	
-end
-
-
-imageFiles = readtable(strcat(folder, '\bg_img.txt'), 'ReadVariableNames', false);
-
- [m ~]=size(imageFiles);
-%  
- theyreColorImages = false;
- for k = 1 : m
- 	fullFileName = fullfile(folder, imageFiles.Var1{k});
- 	fprintf('Reading %s\n', fullFileName);
- 	thisImage=imread(fullFileName);
- 	[r, c, thisNumberOfColorChannels] = size(thisImage);
-	if k == 1
- 		% Save the first image.
- 		sumImage = double(thisImage);
- 		% Save its dimensions so we can match later images' sizes to this first one.
- 		rows1 = r;
- 		columns1 = c;
- 		numberOfColorChannels1 = thisNumberOfColorChannels;
- 		theyreColorImages = numberOfColorChannels1 >= 3;
-
- 	else
- 		% It's the second, or later, image.
- 		if rows1 ~= r || columns1 ~= c
- 			% It's not the same size, so resize it to the size of the first image.
- 			thisImage = imresize(thisImage, [rows1, columns1]);
- 		end
- 		% Make sure the colors match - either all color or all gray scale, according to the first one.
- 		if thisNumberOfColorChannels == 3 && numberOfColorChannels1 == 1
- 			% We have color.  Need to change it to grayscale to match the first one.
-			thisImage = rgb2gray(thisImage);
- 			theyreColorImages = false;
- 		elseif thisNumberOfColorChannels == 1 && numberOfColorChannels1 == 3
- 			% We have grayscale.  Need to change it to RGB to match the first one.
- 			thisImage = cat(3, thisImage, thisImage, thisImage);
- 			theyreColorImages = true;
- 		end
- 		% Now do the summation.
- 		sumImage = sumImage + double(thisImage); % Be sure to cast to double to prevent clipping.	[rows, columns, numberOfColorBands]=size(thisImage);
- 		
- 		% It can't display an RGB image if it's floating point and more than 255.
- 		% So divide it by the number of images to get it into the 0-255 range.
- 		if theyreColorImages
- 			displayedImage = uint8(sumImage / k);
- 		else
- 			displayedImage = sumImage;
- 		end
- 		imshow(displayedImage, []);
- 		drawnow;
- 	end
- end
+% folder = path;
+% 
+% if folder == 0
+% 	% Clicked cancel.  Exit program.
+% 	return;
+% end
+% 
+% % Check if folder exists
+% if ~isdir(folder)
+% 	errorMessage = sprintf('Folder does not exist:\n%s', folder);
+% 	uiwait(warndlg(errorMessage));
+% 	return;	
+% 	
+% end
+% 
+% 
+% imageFiles = readtable(strcat(folder, '\bg_img.txt'), 'ReadVariableNames', false);
+% 
+%   [m n s]=size(left);
+% % %
+%   Img=cell(1, s);
+%   theyreColorImages = false;
+%   counter=1;
+%   for k = 1 : 18% s
+%       disp(k)
+% %  	fullFileName = fullfile(folder, imageFiles.Var1{k});
+%     Img{counter} =left(:,:,(k:k+2));
+%     counter = counter+1;
+%     k=k+2;
+%   end
+%     
+    
+    %fullFileName = (left(:,:,(i:i+2));
+%  	%fprintf('Reading %s\n', fullFileName);
+%  	thisImage=imread(fullFileName);
+%  	[r, c, thisNumberOfColorChannels] = size(thisImage);
+% 	if k == 1
+%  		% Save the first image.
+%  		sumImage = double(thisImage);
+%  		% Save its dimensions so we can match later images' sizes to this first one.
+%  		rows1 = r;
+%  		columns1 = c;
+%  		numberOfColorChannels1 = thisNumberOfColorChannels;
+%  		theyreColorImages = numberOfColorChannels1 >= 3;
+% 
+%  	else
+%  		% It's the second, or later, image.
+%  		if rows1 ~= r || columns1 ~= c
+%  			% It's not the same size, so resize it to the size of the first image.
+%  			thisImage = imresize(thisImage, [rows1, columns1]);
+%  		end
+%  		% Make sure the colors match - either all color or all gray scale, according to the first one.
+%  		if thisNumberOfColorChannels == 3 && numberOfColorChannels1 == 1
+%  			% We have color.  Need to change it to grayscale to match the first one.
+% 			thisImage = rgb2gray(thisImage);
+%  			theyreColorImages = false;
+%  		elseif thisNumberOfColorChannels == 1 && numberOfColorChannels1 == 3
+%  			% We have grayscale.  Need to change it to RGB to match the first one.
+%  			thisImage = cat(3, thisImage, thisImage, thisImage);
+%  			theyreColorImages = true;
+%  		end
+%  		% Now do the summation.
+%  		sumImage = sumImage + double(thisImage); % Be sure to cast to double to prevent clipping.	[rows, columns, numberOfColorBands]=size(thisImage);
+%  		
+%  		% It can't display an RGB image if it's floating point and more than 255.
+%  		% So divide it by the number of images to get it into the 0-255 range.
+%  		if theyreColorImages
+%  			displayedImage = uint8(sumImage / k);
+%  		else
+%  			displayedImage = sumImage;
+%  		end
+%  		imshow(displayedImage, []);
+%  		drawnow;
+%  	end
+%  end
 % 
 % %% calculate the mean
- sumImage = uint8(sumImage / m);
- cla;
- disp('Compute average done!');
- imshow(sumImage, []);
+%  sumImage = uint8(sumImage / m);
+%  cla;
+%  disp('Compute average done!');
+%  imshow(sumImage, []);
 %backgroundImage = imread(strcat(folder, '\', imageFiles.Var1{1}));
 
 %%
-backgroundImage = sumImage;
-
+%backgroundImage = imread('C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S1\P1E_S1_C1\00000000.jpg');
+%sum(left(:,:, end-2)
+%backgroundImage=sum(left(:,:,end-2), 3)/size(left(:,:, end-2),3);
+backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
+backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
+backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
+backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
 % backgroundImage=imread(strcat(path, 
 originalImage=left(:, :, [end-2:end]);
 %imshow(left(:,:, end-2:end));
@@ -120,7 +135,7 @@ diffImage = abs(double(grayImage) - double(backgroundImage));
 % Threshold the image.
 % try here different values
 %10
-binaryImage = diffImage >=10;
+binaryImage = diffImage >=15;
 
 % Display the image.
 % subplot(3, 3, 4);
@@ -128,13 +143,13 @@ binaryImage = diffImage >=10;
 
 
 % Take largest blob
-binaryImage = bwareafilt(binaryImage, 1);
+binaryImage = bwareafilt(binaryImage, 20);
 
 % Fill holes.
 se = strel('disk', 45, 0);
 
 mask = imfill(binaryImage, 'holes');
-%mask = imclose(mask, se);
+mask = imclose(mask, se);
 % % Get convex hull
 % binaryImage = bwconvhull(binaryImage);
 % Display the image.
