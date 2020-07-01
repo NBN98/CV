@@ -3,6 +3,7 @@ function [result, result2, mask] = render(frame,mask,bg,mode)
   %
   %
   input = true;
+  %is this while necessary??
   while input
       
       if mode == 'foreground'

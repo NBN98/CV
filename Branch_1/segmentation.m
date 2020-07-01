@@ -121,8 +121,21 @@ else
     grayImage = originalImage;
 end
 
+BackgroundHsv = rgb2hsv(backgroundImage);
+FrameHsv = rgb2hsv(originalImage);
+% 10% more saturation:
+BackgroundHsv(:, :, 2) = BackgroundHsv(:, :, 2) * 1.1;
+FrameHsv(:, :, 2) = FrameHsv(:, :, 2) * 1.1;
+BackgroundHsv(BackgroundHsv > 1) = 1;  % Limit values
+FrameHsv(FrameHsv > 1) = 1;  % Limit values
+%Back to RGB
+BackgroundProcessed = hsv2rgb(BackgroundHsv);
+FrameProcessed = hsv2rgb(FrameHsv);
+
+RgbDiffImage = abs(BackgroundProcessed - FrameProcessed);
+GrayDiff = rgb2gray(RgbDiffImage);
 % Subtract the images
-diffImage = abs(double(grayImage) - double(backgroundImage));
+%diffImage = abs(double(grayImage) - double(backgroundImage));
 % diffImage = ~diffImage;
 
 % Display the image.
@@ -135,8 +148,8 @@ diffImage = abs(double(grayImage) - double(backgroundImage));
 % Threshold the image.
 % try here different values
 %10
-binaryImage = diffImage >=15;
-
+%binaryImage = diffImage >=15;
+binaryImage = GrayDiff > 0.13;
 % Display the image.
 % subplot(3, 3, 4);
 % imshow(binaryImage, []);
