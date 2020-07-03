@@ -95,6 +95,8 @@ backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4
 backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
+ subplot(3, 3, 8);
+ imshow(backgroundImage, []);
 % backgroundImage=imread(strcat(path, 
 originalImage=left(:, :, [end-2:end]);
 %imshow(left(:,:, end-2:end));
@@ -106,7 +108,7 @@ if numberOfColorChannels > 1
    
     % It's not really gray scale like we expected - it's color.
     % Convert it to gray scale.
-    backgroundImage = rgb2gray(backgroundImage);
+    GbackgroundImage = rgb2gray(backgroundImage);
 end
 
 
@@ -124,23 +126,25 @@ end
 BackgroundHsv = rgb2hsv(backgroundImage);
 FrameHsv = rgb2hsv(originalImage);
 % 10% more saturation:
-BackgroundHsv(:, :, 2) = BackgroundHsv(:, :, 2) * 1.1;
-FrameHsv(:, :, 2) = FrameHsv(:, :, 2) * 1.1;
+BackgroundHsv(:, :, 2) = BackgroundHsv(:, :, 2) * 1.15;
+FrameHsv(:, :, 2) = FrameHsv(:, :, 2) * 1.15;
 BackgroundHsv(BackgroundHsv > 1) = 1;  % Limit values
 FrameHsv(FrameHsv > 1) = 1;  % Limit values
 %Back to RGB
 BackgroundProcessed = hsv2rgb(BackgroundHsv);
 FrameProcessed = hsv2rgb(FrameHsv);
 
-RgbDiffImage = abs(BackgroundProcessed - FrameProcessed);
+RgbDiffImage = abs(FrameProcessed - BackgroundProcessed);
+
 GrayDiff = rgb2gray(RgbDiffImage);
+
 % Subtract the images
-%diffImage = abs(double(grayImage) - double(backgroundImage));
+diffImage = abs(double(grayImage) - double(GbackgroundImage));
 % diffImage = ~diffImage;
 
 % Display the image.
-% subplot(3, 3, 3);
-% imshow(diffImage, []);
+ %subplot(3, 3, 6);
+ %imshow(diffImage, []);
 % axis on;
 
 
@@ -148,21 +152,34 @@ GrayDiff = rgb2gray(RgbDiffImage);
 % Threshold the image.
 % try here different values
 %10
-%binaryImage = diffImage >=15;
-binaryImage = GrayDiff > 0.13;
+binaryImage = diffImage >=15;
+binaryImage2 = GrayDiff > 0.08;
 % Display the image.
-% subplot(3, 3, 4);
-% imshow(binaryImage, []);
+ %subplot(3, 3, 5);
+ %imshow(binaryImage, []);
 
 
 % Take largest blob
 binaryImage = bwareafilt(binaryImage, 20);
+binaryImage2 = bwareafilt(binaryImage2, 20);
+subplot(3, 3, 9);
+imshow(binaryImage2, []);
+
 
 % Fill holes.
-se = strel('disk', 45, 0);
+se = strel('disk', 50, 0);
 
 mask = imfill(binaryImage, 'holes');
 mask = imclose(mask, se);
+
+%post process hsv method
+mask2 = imfill(binaryImage, 'holes');
+mask2 = imclose(mask, 10);
+FilteredImg = medfilt2(mask2, [5 5]);
+mask2 = bwmorph(FilteredImg, "fatten",6);
+subplot(3, 3, 6);
+imshow(mask2, []);
+%mask = imclose(mask, 10);
 % % Get convex hull
 % binaryImage = bwconvhull(binaryImage);
 % Display the image.

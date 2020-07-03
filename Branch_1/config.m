@@ -13,10 +13,10 @@ fontSize = 20;
 
 %% Setup Image Reader
 % Specify Scene Folder
-src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S3";
+src = "C:\Users\rober\Downloads\P1E_S1";
 
 % Select Cameras
- L =2;
+ L =1;
  R =3;
 
 % Choose a start point
