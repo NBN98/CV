@@ -20,11 +20,11 @@ src = "C:\Users\rober\Downloads\P1E_S1";
  R =3;
 
 % Choose a start point
-start = 40;
+start = 400;
 
 % Choose the number of succseeding frames
 %(think 5 works better)
-N = 10;
+N = 3;
 
 
 

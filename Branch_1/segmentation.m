@@ -91,9 +91,10 @@ function [mask, backgroundImage] = segmentation(left,right)
 %backgroundImage = imread('C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S1\P1E_S1_C1\00000000.jpg');
 %sum(left(:,:, end-2)
 %backgroundImage=sum(left(:,:,end-2), 3)/size(left(:,:, end-2),3);
-backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
-backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
-backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
+n_bck = 3*2;
+backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:n_bck-4),3)/(size(left(:,:,1:3:n_bck-4),3)));
+backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:n_bck-3),3)/(size(left(:,:,1:3:n_bck-4),3)));
+backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:n_bck-2),3)/(size(left(:,:,1:3:n_bck-4),3)));
 backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
  subplot(3, 3, 8);
  imshow(backgroundImage, []);
@@ -160,8 +161,8 @@ binaryImage2 = GrayDiff > 0.08;
 
 
 % Take largest blob
-binaryImage = bwareafilt(binaryImage, 20);
-binaryImage2 = bwareafilt(binaryImage2, 20);
+binaryImage = bwareafilt(binaryImage, 15);
+binaryImage2 = bwareafilt(binaryImage2, 15);
 subplot(3, 3, 9);
 imshow(binaryImage2, []);
 
@@ -179,6 +180,8 @@ FilteredImg = medfilt2(mask2, [5 5]);
 mask2 = bwmorph(FilteredImg, "fatten",6);
 subplot(3, 3, 6);
 imshow(mask2, []);
+%replace Noah's mask with other mask
+mask = mask2;
 %mask = imclose(mask, 10);
 % % Get convex hull
 % binaryImage = bwconvhull(binaryImage);
