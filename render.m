@@ -49,7 +49,7 @@ function [result, result2, mask,v2] = render(frame,mask,bg,mode,v)
 
              %resizing background into dimensions of input image
              backframe=imresize(backframe,[size(frame,1) size(frame,2)]);
-             v2=v+1
+             v2=v+1;
              % reseting video when over
              if v==videoBack.NumberOfFrames+1;
                  v=1;
