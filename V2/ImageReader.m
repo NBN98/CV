@@ -93,8 +93,8 @@ classdef ImageReader < handle
               
              
               %saves the image properties to workspace
-              assignin('base','image_L',images_L);
-              assignin('base','image_R', images_R);
+              %assignin('base','image_L',images_L);
+              %assignin('base','image_R', images_R);
 
             
               % for every call, we increase the the class property counter
@@ -138,7 +138,7 @@ classdef ImageReader < handle
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
                               %obj.counter = i;
-                              disp(strcat(obj.joint_path_R, '\', images_L(i).name))
+                              %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               
                           end
                           l=obj.loop;
@@ -158,7 +158,7 @@ classdef ImageReader < handle
                               ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
-                              disp(strcat(obj.joint_path_R, '\', images_L(i).name))
+                              %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               obj.counter = i-obj.N;
                               %disp(images_L(i).name);
                               if images_L(i).name == images_L(end).name
@@ -169,8 +169,8 @@ classdef ImageReader < handle
                                   %disp(obj.loop);
                                   
                                   
-                                   assignin('base','ImageArray_L', ImageArray_L);
-                                   assignin('base','ImageArray_R', ImageArray_R);
+                                   %assignin('base','ImageArray_L', ImageArray_L);
+                                   %assignin('base','ImageArray_R', ImageArray_R);
 %                                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
 %                                   right=cat(3, ImageArray_R{:});
 %                                   assignin('base','left', left);
@@ -203,7 +203,7 @@ classdef ImageReader < handle
                           ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                           index=index+1;
                           %obj.counter = i;
-                          disp(strcat(obj.joint_path_R, '\', images_L(i).name));
+                          %disp(strcat(obj.joint_path_R, '\', images_L(i).name));
                           %disp(obj.loop);
                           
                           obj.loop = 0;     %reset the loop value
@@ -229,7 +229,7 @@ classdef ImageReader < handle
                       ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(j).name));
                       index=index+1;
                       %obj.counter = j;
-                      disp(strcat(obj.joint_path_R, '\', images_L(j).name))
+                      %disp(strcat(obj.joint_path_R, '\', images_L(j).name))
                       % if the loaded image is the last one, we should
                       % start at the beginning, since obj.loop is only
                       % defined here equal to 1
