@@ -19,7 +19,7 @@ elseif mode =='bonus'
     bg=VideoReader(bg);
 end
 i=1;
-warning('off','last')
+warning('off','images:bwfilt:tie')
 while loop ~= 1
     
     % Set up figure properties:
