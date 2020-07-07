@@ -13,14 +13,14 @@ fontSize = 20;
 
 %% Setup Image Reader
 % Specify Scene Folder
-src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S3";
+src = "C:\Users\rober\Downloads\P1E_S1";
 
 % Select Cameras
- L =2;
+ L =1;
  R =3;
 
 % Choose a start point
-start = 400;
+start = 100;
 
 % Choose the number of succseeding frames
 %(think 5 works better)
@@ -33,7 +33,7 @@ N = 4;
 dst = "output.avi";
 
 % Load Virual Background
-bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\bg.jpg";
+bg = "C:\Users\rober\Pictures\bg.jpg";
 
 % Select rendering mode (Choose between foreground, background, overlay,
 % substitute, bonus

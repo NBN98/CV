@@ -3,6 +3,9 @@ classdef ImageReader < handle
   %
   %
  
+  %the following are the initial values for the variables that are needed
+  %for the ImageReader class. This will be changed acording to the config.m
+  %file or the GUI depending on the use. 
   properties
       src='';
       L=0;
@@ -21,27 +24,28 @@ classdef ImageReader < handle
   methods
       % constructor with input parser
       function obj = ImageReader(src, L, R, varargin)
-         
+         %start iput parser
           p = inputParser;
+          %set some default values
           defaultstart = 0;
           defaultN = 1;
          
-          
+          %set the functions to verify valid variables
           validnumber = @(x) isnumeric(x);
           validstring = @(x) isstring(x) | ischar(x);
           validL = @(x) (x==2) | (x==1);
           validR = @(x) (x==2) | (x==3);
       
-          
+          %add the parameters to the input parser
           addRequired(p,'src', validstring);
           addRequired(p,'L', validL);
           addRequired(p,'R', validR);
           
-          
+          %add Optional parameters
           addOptional(p,'start',defaultstart,validnumber);
           addOptional(p,'N',defaultN,validnumber);
           
-          
+          %parse and assign the parameters.
           parse(p, src, L, R, varargin{:});
           obj.src = p.Results.src;
           obj.L = p.Results.L;
@@ -50,22 +54,21 @@ classdef ImageReader < handle
           obj.N=p.Results.N;
           
           
-          
+          %verify which was the selected number for the left variable
           if obj.L == 1
               % sub Directory 1 (search whether a folder has 'C1' in
               % name)
               path_L = dir(strcat(obj.src, '\*C1*')); %returns struct array
-              obj.joint_path_L=strcat(path_L.folder,'\', path_L.name);
-              
+              %join the strings depending on the selected number
+              obj.joint_path_L=strcat(path_L.folder,'\', path_L.name); 
               
           else
               % sub directory 2
               path_L = dir(strcat(obj.src, '\*C2*')); %returns struct array
               obj.joint_path_L=strcat(path_L.folder,'\', path_L.name);
-              
-              
+
           end
-          
+          %verify the number selected for the right variable
           if R ==2
               %sub directory 2
               path_R = dir(strcat(obj.src, '\*C2*')); 
@@ -79,12 +82,13 @@ classdef ImageReader < handle
           
           end
           
-      end
+      end %end Image reader function
       
 
       
-           
+          %use the next function to load the next tensors in the data set 
           function [left, right, l]=next(obj)
+              %get the already constructed path of the object
               joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
