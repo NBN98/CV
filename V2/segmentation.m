@@ -92,6 +92,7 @@ function [mask, backgroundImage] = segmentation(left,right)
 %sum(left(:,:, end-2)
 %backgroundImage=sum(left(:,:,end-2), 3)/size(left(:,:, end-2),3);
 
+%Global variables to use adaptive background
 global seg_times;
 global GBackground;
 seg_times = 0;
@@ -101,8 +102,12 @@ backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4
 backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
+%thisFrame(:,:,1) = uint8(left(:,:,1));
+%thisFrame(:,:,2) = uint8(left(:,:,2));
+%thisFrame(:,:,3) = uint8(left(:,:,3));
 if seg_times == 0
    GBackground = backgroundImage; 
+   seg_times = 1;
 end
 % backgroundImage=imread(strcat(path, 
 originalImage=left(:, :, (end-2:end));
@@ -132,7 +137,7 @@ GrayDiff = rgb2gray(RgbDiffImage);
 
 
 % Threshold the image. Right now .08 should work fine
-binaryImage = GrayDiff >=.038;
+binaryImage = GrayDiff >=.03;
 
 % Display the image.
 % subplot(3, 3, 4);
@@ -146,12 +151,13 @@ binaryImage = bwareafilt(binaryImage, 20);
 %fill holes
 mask = imfill(binaryImage, 'holes');
 %close mask around 10 times
-mask= imclose(mask, 8);
+mask= imclose(mask, 10);
 %apply median filtering with a 5x5 window
 FilteredImg = medfilt2(mask, [5 5]);
 %now that our image is as clean as possible, try to make bigger the area
 mask = bwmorph(FilteredImg, "fatten",6);
-mask= imclose(mask, 8);
+
+%mask= imclose(mask, 8);
 
 % % Get convex hull
 % binaryImage = bwconvhull(binaryImage);
