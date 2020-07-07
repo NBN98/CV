@@ -98,16 +98,28 @@ global GBackground;
 seg_times = 0;
 
 %Take N previos images to get the background estimation
-backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
-backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
-backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
-backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
-%thisFrame(:,:,1) = uint8(left(:,:,1));
-%thisFrame(:,:,2) = uint8(left(:,:,2));
-%thisFrame(:,:,3) = uint8(left(:,:,3));
+%backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
+%backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
+%backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
+%backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
+alpha = 0.6;
 if seg_times == 0
-   GBackground = backgroundImage; 
-   seg_times = 1;
+    %the first time take the mean of N frames
+    backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
+    backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
+    backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
+    backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
+    GBackground = backgroundImage; 
+    seg_times = 1;
+else
+    %from there only change the background slightly depending on the past 
+    %image and the current Background
+    lastFrame(:,:,1) = uint8(left(:,:,end-5));
+    lastFrame(:,:,2) = uint8(left(:,:,end-4));
+    lastFrame(:,:,3) = uint8(left(:,:,end-3));
+    %apply Background(t) = (1-alpha)*I(t-1)+alpha(Background(t-1)
+    GBackground = (1-alpha) * lastFrame + alpha * GBackground;
+    subplot(3,3,6); imshow(GBackground , []);
 end
 % backgroundImage=imread(strcat(path, 
 originalImage=left(:, :, (end-2:end));
