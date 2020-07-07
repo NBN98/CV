@@ -75,6 +75,8 @@ end
 
 %% Stop timer here
 elapsed_time = toc;
+disp(elapsed_time);
+display(i);
 
 
 %% Write Movie to Disk

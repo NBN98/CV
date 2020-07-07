@@ -16,11 +16,11 @@ fontSize = 20;
 src = "C:\Users\rober\Downloads\P1E_S1";
 
 % Select Cameras
- L =1;
+ L =2;
  R =3;
 
 % Choose a start point
-start = 100;
+start = 5;
 
 % Choose the number of succseeding frames
 %(think 5 works better)
