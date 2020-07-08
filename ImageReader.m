@@ -1,6 +1,6 @@
 classdef ImageReader < handle
   % Add class description here
-  %
+  % ImageReader inherits from handle
   %
  
   properties
@@ -26,22 +26,22 @@ classdef ImageReader < handle
           defaultstart = 0;
           defaultN = 1;
          
-          
+           %set the functions to verify valid variables
           validnumber = @(x) isnumeric(x);
           validstring = @(x) isstring(x) | ischar(x);
           validL = @(x) (x==2) | (x==1);
           validR = @(x) (x==2) | (x==3);
       
-          
+          %add the parameters to the input parser
           addRequired(p,'src', validstring);
           addRequired(p,'L', validL);
           addRequired(p,'R', validR);
           
-          
+          %add Optional parameters
           addOptional(p,'start',defaultstart,validnumber);
           addOptional(p,'N',defaultN,validnumber);
           
-          
+          %parse and assign the parameters.
           parse(p, src, L, R, varargin{:});
           obj.src = p.Results.src;
           obj.L = p.Results.L;
@@ -50,7 +50,7 @@ classdef ImageReader < handle
           obj.N=p.Results.N;
           
           
-          
+          %verify which was the selected number for the left variable
           if obj.L == 1
               % sub Directory 1 (search whether a folder has 'C1' in
               % name)
@@ -83,7 +83,7 @@ classdef ImageReader < handle
       
 
       
-           
+          %use the next function to load the next tensors in the data set 
           function [left, right, l]=next(obj)
               joint_path_L = obj.joint_path_L;
              
@@ -281,4 +281,5 @@ classdef ImageReader < handle
           
       
   end
+  
 end

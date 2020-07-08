@@ -1,86 +1,78 @@
-function [result, result2, mask,v] = render(frame,mask,bg,mode,v)
+function [result, mask,v] = render(frame,mask,bg,mode,v)
   % Add function description here
-  %
-  %
-  input = true;
-  %is this while necessary??
+  % render takes 5 inputs, where v is for the bonus task.
+  % frame is always the last frame from the tensor and bg is the background
+  % image or video
+
+  %% Implementation of render function
   
   
-  while input
+  if mode == 'foreground'
+      % applies the element-wise binary operation of arrays (specified
+      % with @times) // cast function converts the mask to the same
+      % data type and complexity as the variable frame.
+      maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
+      result=maskedRgbImage;
+      v=0;
+      % input = false;
+  elseif mode == 'background'
+      % since background mode is the opposite of the foreground mound,
+      % we only need to invert the bits in the mask
+      maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
+      result=maskedRgbImage;
+      v=0;
+   
+  elseif mode == 'overlay'
+      color1=zeros(size(frame));
+      color2=zeros(size(frame));
+      color1(:,:,3)=ones(size(frame,1),size(frame,2))*255;
+      color2(:,:,1)=ones(size(frame,1),size(frame,2))*255;
       
-      if mode == 'foreground'
-          maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
-          result=maskedRgbImage;
-          result2=frame;
-          v=0;
-          input = false;
-      elseif mode == 'background'
-          maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
-          result=maskedRgbImage;
-          result2=frame;
-          v=0;
-          input = false;
-      elseif mode == 'overlay'
-            color1=zeros(size(frame));
-            color2=zeros(size(frame));
-            color1(:,:,3)=ones(size(frame,1),size(frame,2))*255;
-            color2(:,:,1)=ones(size(frame,1),size(frame,2))*255;
-
-            transp=bsxfun(@times, color1, cast(~mask, 'like', color1))+bsxfun(@times, color2, cast(mask, 'like', color2));
-
-
-            result = imfuse(frame,transp,'blend','Scaling','joint');
-            result2=frame;
-            
-          input = false;
-          v=0;
-      elseif mode == 'substitute'
+      transp=bsxfun(@times, color1, cast(~mask, 'like', color1))+bsxfun(@times, color2, cast(mask, 'like', color2));
+      
+      
+      result = imfuse(frame,transp,'blend','Scaling','joint');
+      
+      
+      v=0;
+  elseif mode == 'substitute'
+      
           backgroundImage=bg;
           maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
-          rgbImage=frame; %imread('C:\Users\noahb\Documents\object_tracking\img\00004384.jpg');
+          rgbImage=frame;
           maskedImage=maskedRgbImage;
           maskImage = logical(maskedImage(:, :, 1));
-          %subplot(3, 3, 7);
-          %imshow(~maskImage);
-          %rgbImage=imread('r
-          %maskedRgbImage = bsxfun(@times, rgbImage, cast(~maskedImage, 'like', rgbImage));
           maskedRgbImage = bsxfun(@times, rgbImage, cast(maskImage, 'like', rgbImage));
           
           maskedBackground=bsxfun(@times, backgroundImage, cast(~maskImage, 'like', backgroundImage));
           rgbImage = maskedRgbImage + maskedBackground;
           result=rgbImage;
-          result2=frame;
           mask=mask;
           v=0;
-          %imshow(rgbImage);
+     
+  
+  elseif mode == 'bonus'
+     
+          backframe=read(bg,v); %taking single frame of video
           
-          input = false;
-      elseif mode == 'bonus'
+          %resizing background into dimensions of input image
+          backframe=imresize(backframe,[size(frame,1) size(frame,2)]);
+          v=v+1;
+          % reseting video when over
+          if v==bg.NumberOfFrames+1;
+              v=1;
+          end
+          
+          %inv_mask=ones(size(mask))-mask;
+          maskedFrame=bsxfun(@times, frame, cast(mask, 'like', frame));
+          maskedBack=bsxfun(@times, backframe, cast(~mask, 'like', backframe));
+          result=maskedFrame+maskedBack;% adding for-and background together
+          mask=mask;
+          
+  else
+      disp('Wrongt input')
       
-             backframe=read(bg,v); %taking single frame of video
-
-             %resizing background into dimensions of input image
-             backframe=imresize(backframe,[size(frame,1) size(frame,2)]);
-             v=v+1;
-             % reseting video when over
-             if v==bg.NumberOfFrames+1;
-                 v=1;
-             end
-
-             %inv_mask=ones(size(mask))-mask;
-             maskedFrame=bsxfun(@times, frame, cast(mask, 'like', frame));
-             maskedBack=bsxfun(@times, backframe, cast(~mask, 'like', backframe));
-             result=maskedFrame+maskedBack;% adding for-and background together
-             result2=frame;
-             mask=mask;
-            % videoPlayer(result);
-             %pause(0.01);
-            
-          input = false;
-      else
-          disp('Wrongt input')
-          
-      end
   end
+  %end
 
 end

@@ -8,39 +8,44 @@ fontSize = 20;
  members = {'Noah Binh Nguyen', 'Fatbardh Smajli', 'Roberto Ruano Martinez', 'Florian Butsch', 'Marta Caneda Portela'};
 
 % Email-Address (from Moodle!):
- mail = {'noahbinh.nguyen@tum.de', 'fatbardh.sm@tum.de', 'Roberto.ruano@tum.de', 'florian.butsch@tum.de', 'marta.caneda@tum.de'};
+ mail = {'noahbinh.nguyen@tum.de', 'fatbardh.smajli@tum.de', 'Roberto.ruano@tum.de', 'florian.butsch@tum.de', 'marta.caneda@tum.de'};
 
 
 %% Setup Image Reader
 % Specify Scene Folder
-src = "C:\Users\fatis\Desktop\Semester 1 Master\Computer Vision\Bilder\P1E_S1";
-
+src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S3";
+%src="C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P2L_S4";
 % Select Cameras
- L =2;
+ L =1;
  R =3;
 
 % Choose a start point
-start = 400;
+start = randi(1000);
 
 % Choose the number of succseeding frames
 %(think 5 works better)
-N = 10;
+N = 4;
 
+ir = ImageReader(src, L, R, start, N);
 
 
 %% Output Settings
 % Output Path
 dst = "output.avi";
 
+
 % Select rendering mode (Choose between foreground, background, overlay,
 % substitute, bonus
-mode = "overlay"; 
+mode = "background"; 
 
-% Load Virual Background
+% Load Virual Background/video
 if mode=="substitute";
-    bg = "C:\Users\fatis\Desktop\Semester 1 Master\Computer Vision\bg.jpg";
+    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\bg.jpg";
 elseif mode=="bonus";
-    bg = "C:\Users\fatis\Desktop\Semester 1 Master\Computer Vision\wavesloop.mp4";
+    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\wavesloop.mp4";
+    
+else %default value
+    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\bg.jpg";
 end
 
 
