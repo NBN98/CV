@@ -94,39 +94,15 @@ classdef ImageReader < handle
               %loads the images into a struct array
               images_L = dir(strcat(obj.joint_path_L, '\*.jpg'));
               images_R = dir(strcat(obj.joint_path_R, '\*.jpg'));
-              
-             
-              %saves the image properties to workspace
-              %assignin('base','image_L',images_L);
-              %assignin('base','image_R', images_R);
-
             
-              % for every call, we increase the the class property counter
+              % for every call, we increase the class property counter
               obj.counter = obj.counter+1;
               ImageArray_L=cell(1, 2292);
               ImageArray_R=cell(1, 2292);
               index=1;
-%               for i=50:70
-%                   
-%                   ImageArray{tt}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
-%                   tt=tt+1;
-%               end
-              
-           
-              %whos ImageArray
-              
-%               for i=2:length(ImageArray)
-%                  if ~isempty(ImageArray{1,i})
-%                    Image0 =  ImageArray{1,1};
-%                    tmp = ImageArray{1,i};
-%                    left=cat(3, Image0, tmp);
-%                    assignin('base','left', left);
-%                  else
-%                      break
-%                  end
-%               end
-               
+        
           try    
+              %check for the first call of this function
               if obj.counter == 1
                   %if loop is not 1, then start at the
                   %start value
@@ -224,9 +200,9 @@ classdef ImageReader < handle
                   end
                   
                   
-              else %if the obj.counter is not 1
+              else %if the obj.counter is not 1, so this is not the firs call
                   
-                  
+                  %load N images based on the counter
                   for j=obj.counter:obj.counter+obj.N
                       %disp(images_L(j).name)
                       ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(j).name));
@@ -242,15 +218,7 @@ classdef ImageReader < handle
                           j=obj.counter;
                           obj.loop=1;
                           
-                          %disp(images_L(j).name);
-%                           assignin('base','ImageArray_L', ImageArray_L);
-%                           assignin('base','ImageArray_R', ImageArray_R);
-%                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
-%                           right=cat(3, ImageArray_R{:});
-%                           assignin('base','left', left);
-%                           assignin('base','right', right);
-                          break;
-                          
+                          break;  
                           
                       else
                           continue;
@@ -259,24 +227,23 @@ classdef ImageReader < handle
                       
                   end
                   l=obj.loop;
-                  %assignin('base','ImageArray_L', ImageArray_L);
-                  %assignin('base','ImageArray_R', ImageArray_R);
+
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                   right=cat(3, ImageArray_R{:});
-                  %assignin('base','left', left);
-                  %assignin('base','right', right);
                       
               end
-              
-          catch
-              
-              if obj.start > length(images_L)
-                  error('Start value exceeds the number of images. Value should be within 0 and %d.', length(images_L));
-                  
-                  
+          % From here, handle the errors that may be caused from a wront path or wrong values for the variables    
+          catch 
+              %this error happens if the path is wrong or there are no
+              %images there
+              if length(images_L) == 0
+                  error("Please verify the structure of the folders and that the path is correct"); 
+                  %wrong start value
+              elseif obj.start > length(images_L)
+                  error('Start value exceeds the number of images. Value should be within 0 and %d', length(images_L));          
               else
+                  %general syntax errors
                   error('Errors occur. Check value N or syntax');
-                  
               end
           end
           
