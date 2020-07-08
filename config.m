@@ -36,7 +36,7 @@ dst = "output.avi";
 
 % Select rendering mode (Choose between foreground, background, overlay,
 % substitute, bonus
-mode = "background"; 
+mode = "overlay"; 
 
 % Load Virual Background/video
 if mode=="substitute";

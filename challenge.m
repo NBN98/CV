@@ -30,10 +30,10 @@ elseif mode =='bonus'
     
 end
 
-
+warning('off','images:bwfilt:tie')
 %i=1;
 while loop ~= 1
-    warning('off','images:bwfilt:tie')
+    
     % Set up figure properties:
     % Enlarge figure to full screen.
     set(gcf, 'Units', 'Normalized', 'OuterPosition', [0 0 1 1]);
@@ -53,7 +53,11 @@ while loop ~= 1
   frame=left(:,:,(end-2:end));
   
   % Render new frame
-  result = render(frame,mask,bg,mode,v);
+  if mode=='bonus'
+      [result, result2, mask, v] = render_bonus( frame, mask, bg, mode, v);
+  else
+      result = render(frame,mask,bg,mode);
+  end
   subplot(3, 3, 1);
   imshow(frame);
   title('Left Camera', 'FontSize', fontSize, 'Interpreter', 'None');
