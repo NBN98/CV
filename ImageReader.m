@@ -111,29 +111,19 @@ classdef ImageReader < handle
                           % array ind ex starts at 1
                           
                           for i=obj.start+1:obj.start+1+obj.N
-                              %disp(images_L(i).name)
-                              % ImageArray{i}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
+                              %read the Left and Right images
                               ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
-                              %obj.counter = i;
-                              %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               
                           end
                           l=obj.loop;
-                          %assignin('base','ImageArray_L', ImageArray_L);
-                          %assignin('base','ImageArray_R', ImageArray_R);
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                           right=cat(3, ImageArray_R{:});
-                          %assignin('base','left', left);
-                          %assignin('base','right', right);
                           
                       % if start is not zero    
                       else
                           for i=obj.start+1:obj.start+obj.N+1
-                              %disp('K');
-                              %disp(images_L(i).name)
-                              % ImageArray{i}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
@@ -153,12 +143,8 @@ classdef ImageReader < handle
                               
                           end
                             l=obj.loop;
-                            %assignin('base','ImageArray_L', ImageArray_L);
-                            %assignin('base','ImageArray_R', ImageArray_R);
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                             right=cat(3, ImageArray_R{:});
-                            %assignin('base','left', left);
-                            %assignin('base','right', right);
                       end
                       
                       % if loop is equal to 1, start at the beginning even
@@ -166,26 +152,17 @@ classdef ImageReader < handle
                       % start
                   else
                       for i=obj.counter:obj.counter+obj.N
-                          %disp(images_L(i).name)
                           ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                           ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                           index=index+1;
-                          %obj.counter = i;
-                          %disp(strcat(obj.joint_path_R, '\', images_L(i).name));
-                          %disp(obj.loop);
                           
                           obj.loop = 0;     %reset the loop value
-                          %l = obj.loop;
-                          %disp(obj.loop)
                       end
                       l=obj.loop;
-                      %assignin('base','ImageArray_L', ImageArray_L);
-                      %assignin('base','ImageArray_R', ImageArray_R);
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                       right=cat(3, ImageArray_R{:});
-                      %assignin('base','left', left);
-                      %assignin('base','right', right);
-                  end
+
+                  end %end obj.loop if statement
                   
                   
               else %if the obj.counter is not 1
@@ -213,15 +190,10 @@ classdef ImageReader < handle
                           
                       end
                       
-                  end
+                  end %end if for the counter
                   l=obj.loop;
-                  %assignin('base','ImageArray_L', ImageArray_L);
-                  %assignin('base','ImageArray_R', ImageArray_R);
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
-                  right=cat(3, ImageArray_R{:});
-                  %assignin('base','left', left);
-                  %assignin('base','right', right);
-                      
+                  right=cat(3, ImageArray_R{:});         
               end
               
           catch
