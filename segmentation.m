@@ -10,6 +10,7 @@ function [mask, backgroundImage] = segmentation(left,right)
 
 
 %% Calculates Background with MEAN approach
+%right here get the mean of the last N images to estimate the background
 backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
@@ -18,18 +19,14 @@ backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundIm
 %last image of tensor should get a mask 
 originalImage=left(:, :, (end-2:end));
 
-
 % Get the dimensions of the image.
 % numberOfColorBands should be = 1.
 [rows, columns, numberOfColorChannels] = size(backgroundImage);
 if numberOfColorChannels > 1
-   
     % It's not really gray scale like we expected - it's color.
     % Convert it to gray scale.
     backgroundImage = rgb2gray(backgroundImage);
 end
-
-
 % Get the dimensions of the image.
 % numberOfColorBands should be = 1.
 [rows, columns, numberOfColorChannels] = size(originalImage);
@@ -41,16 +38,12 @@ else
     grayImage = originalImage;
 end
 
-% Subtract the images
+% Subtract the images and the the absolute difference
 diffImage = abs(double(grayImage) - double(backgroundImage));
-
-
 
 % Threshold the image.
 % try here different values
 %10
-%T=graythresh(diffImage);
-%disp(T);
 binaryImage = diffImage >=15; %15
 
 
@@ -60,11 +53,12 @@ binaryImage = bwareafilt(binaryImage, 20);
 % Fill holes.
 se = strel('disk', 45, 0);
 
+%fill holes of the binary result
 mask = imfill(binaryImage, 'holes');
+%perform a morphological close to the image to get a better shape of the
+%foreground and reutrn it
 mask = imclose(mask, se);
-%mask=medfilt2(mask, [5 5]);
-% % Get convex hull
-% binaryImage = bwconvhull(binaryImage);
+
 
 
 

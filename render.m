@@ -23,21 +23,26 @@ function [result, mask] = render(frame,mask,bg,mode)
      
    
   elseif mode == 'overlay'
+      %initialize the color matrices with zeros
       color1=zeros(size(frame));
       color2=zeros(size(frame));
+      %now select  Blue and Red as our colors to be displayed
       color1(:,:,3)=ones(size(frame,1),size(frame,2))*255;
       color2(:,:,1)=ones(size(frame,1),size(frame,2))*255;
-      
+      %use bsxfun to mask both of the resulting images and display them as
+      %one
       transp=bsxfun(@times, color1, cast(~mask, 'like', color1))+bsxfun(@times, color2, cast(mask, 'like', color2));
       
-      
+      %get the result
       result = imfuse(frame,transp,'blend','Scaling','joint');
       
       
      
   elseif mode == 'substitute'
-      
+          %get the background image from the config.m file
           backgroundImage=bg;
+          %now display the background image as the background and use the
+          %mask to show the foreground of the current frame.
           maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
           rgbImage=frame;
           maskedImage=maskedRgbImage;
