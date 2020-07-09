@@ -133,6 +133,6 @@ close(movie);
 
 %% Stop timer here
 tEnd = toc(tStart);
- fprintf('Elapsed time: %d minutes and %f seconds\n', floor(tEnd/60), rem(tEnd,60));
+fprintf('Elapsed time: %d minutes and %f seconds\n', floor(tEnd/60), rem(tEnd,60));
 
-
+implay('output.avi');
