@@ -54,7 +54,7 @@ while loop ~= 1
   
   % Render new frame
   if mode=='bonus'
-      [result, result2, mask, v] = render_bonus( frame, mask, bg, mode, v);
+      [result, v] = render_bonus( frame, mask, bg, mode, v);
   else
       result = render(frame,mask,bg,mode);
   end

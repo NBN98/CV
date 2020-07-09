@@ -1,4 +1,4 @@
-function [result, mask] = render(frame,mask,bg,mode)
+function [result] = render(frame,mask,bg,mode)
   % Add function description here
   % render takes 5 inputs, where v is for the bonus task.
   % frame is always the last frame from the tensor and bg is the background
