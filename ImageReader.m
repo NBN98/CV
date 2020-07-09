@@ -84,7 +84,7 @@ classdef ImageReader < handle
 
       
           %use the next function to load the next tensors in the data set 
-          function [left, right, l]=next(obj)
+          function [left, right, loop]=next(obj)
               joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
@@ -95,12 +95,16 @@ classdef ImageReader < handle
               %saves the image properties to workspace
               %assignin('base','image_L',images_L);
               %assignin('base','image_R', images_R);
-
+              
+              file_count=dir([joint_path_L, '/*.jpg']);
+              number_of_files=length(file_count);
             
               % for every call, we increase the the class property counter
               obj.counter = obj.counter+1;
-              ImageArray_L=cell(1, 2292);
-              ImageArray_R=cell(1, 2292);
+              
+              %preallocate the memory (improve performance) 
+              ImageArray_L=cell(1, number_of_files);
+              ImageArray_R=cell(1, number_of_files);
               index=1;
 %               for i=50:70
 %                   
@@ -141,7 +145,7 @@ classdef ImageReader < handle
                               %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               
                           end
-                          l=obj.loop;
+                          loop=obj.loop;
                           %assignin('base','ImageArray_L', ImageArray_L);
                           %assignin('base','ImageArray_R', ImageArray_R);
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
@@ -184,7 +188,7 @@ classdef ImageReader < handle
                               end
                               
                           end
-                            l=obj.loop;
+                            loop=obj.loop;
                             %assignin('base','ImageArray_L', ImageArray_L);
                             %assignin('base','ImageArray_R', ImageArray_R);
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
@@ -210,7 +214,7 @@ classdef ImageReader < handle
                           %l = obj.loop;
                           %disp(obj.loop)
                       end
-                      l=obj.loop;
+                      loop=obj.loop;
                       %assignin('base','ImageArray_L', ImageArray_L);
                       %assignin('base','ImageArray_R', ImageArray_R);
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
@@ -254,7 +258,7 @@ classdef ImageReader < handle
                       end
                       
                   end
-                  l=obj.loop;
+                  loop=obj.loop;
                   %assignin('base','ImageArray_L', ImageArray_L);
                   %assignin('base','ImageArray_R', ImageArray_R);
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
