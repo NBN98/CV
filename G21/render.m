@@ -7,7 +7,7 @@ function [result] = render(frame,mask,bg,render_mode)
   %% Implementation of render function
   
   
-  if render_mode == 'foreground'
+  if render_mode == "foreground"
       % applies the element-wise binary operation of arrays (specified
       % with @times) // cast function converts the mask to the same
       % data type and complexity as the variable frame.
@@ -15,14 +15,14 @@ function [result] = render(frame,mask,bg,render_mode)
       result=maskedRgbImage;
       
       % input = false;
-  elseif render_mode == 'background'
+  elseif render_mode == "background"
       % since background render_mode is the opposite of the foreground mound,
       % we only need to invert the bits in the mask
       maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
       result=maskedRgbImage;
      
    
-  elseif render_mode == 'overlay'
+  elseif render_mode == "overlay"
       color1=zeros(size(frame));
       color2=zeros(size(frame));
       color1(:,:,3)=ones(size(frame,1),size(frame,2))*255;
@@ -35,7 +35,7 @@ function [result] = render(frame,mask,bg,render_mode)
       
       
      
-  elseif render_mode == 'substitute'
+  elseif render_mode == "substitute"
       
           backgroundImage=bg;
           maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
