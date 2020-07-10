@@ -40,12 +40,12 @@ mode = "bonus";
 
 % Load Virual Background/video
 if mode=="substitute";
-    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\bg.jpg";
+    bg = "Background\bg.jpg";
 elseif mode=="bonus";
-    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\wavesloop.mp4";
+    bg = "Background\wavesloop.mp4";
     
 else %default value
-    bg = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\bg.jpg";
+    bg = "Background\bg.jpg";
 end
 
 
