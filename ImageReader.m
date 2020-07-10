@@ -2,7 +2,10 @@ classdef ImageReader < handle
   % Add class description here
   % ImageReader inherits from handle
   %
- 
+  
+  %the following are the initial values for the variables that are needed
+  %for the ImageReader class. This will be changed acording to the config.m
+  %file or the GUI depending on the use. 
   properties
       src='';
       L=0;
@@ -79,7 +82,7 @@ classdef ImageReader < handle
           
           end
           
-      end
+      end%end Image reader function
       
 
       
@@ -91,10 +94,6 @@ classdef ImageReader < handle
               images_L = dir(strcat(obj.joint_path_L, '\*.jpg'));
               images_R = dir(strcat(obj.joint_path_R, '\*.jpg'));
               
-             
-              %saves the image properties to workspace
-              %assignin('base','image_L',images_L);
-              %assignin('base','image_R', images_R);
               
               file_count=dir([joint_path_L, '/*.jpg']);
               number_of_files=length(file_count);
@@ -106,25 +105,6 @@ classdef ImageReader < handle
               ImageArray_L=cell(1, number_of_files);
               ImageArray_R=cell(1, number_of_files);
               index=1;
-%               for i=50:70
-%                   
-%                   ImageArray{tt}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
-%                   tt=tt+1;
-%               end
-              
-           
-              %whos ImageArray
-              
-%               for i=2:length(ImageArray)
-%                  if ~isempty(ImageArray{1,i})
-%                    Image0 =  ImageArray{1,1};
-%                    tmp = ImageArray{1,i};
-%                    left=cat(3, Image0, tmp);
-%                    assignin('base','left', left);
-%                  else
-%                      break
-%                  end
-%               end
                
           try    
               if obj.counter == 1
@@ -136,29 +116,21 @@ classdef ImageReader < handle
                           % array ind ex starts at 1
                           
                           for i=obj.start+1:obj.start+1+obj.N
-                              %disp(images_L(i).name)
-                              % ImageArray{i}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
+                              %read the Left and Right images
                               ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
-                              %obj.counter = i;
-                              %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               
                           end
-                          loop=obj.loop;
-                          %assignin('base','ImageArray_L', ImageArray_L);
-                          %assignin('base','ImageArray_R', ImageArray_R);
+
+                          l=obj.loop;
+
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                           right=cat(3, ImageArray_R{:});
-                          %assignin('base','left', left);
-                          %assignin('base','right', right);
                           
                       % if start is not zero    
                       else
                           for i=obj.start+1:obj.start+obj.N+1
-                              %disp('K');
-                              %disp(images_L(i).name)
-                              % ImageArray{i}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                               ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                               index=index+1;
@@ -169,32 +141,19 @@ classdef ImageReader < handle
                                   obj.counter = 0;
                                   i=obj.counter;
                                   obj.loop=1;
-                                  %l = obj.loop;
-                                  %disp(obj.loop);
-                                  
-                                  
-                                   %assignin('base','ImageArray_L', ImageArray_L);
-                                   %assignin('base','ImageArray_R', ImageArray_R);
-%                                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
-%                                   right=cat(3, ImageArray_R{:});
-%                                   assignin('base','left', left);
-%                                   assignin('base','right', right);
                                   break;
-                                  
-                                  
+                                      
                               else
                                   continue;
                                   
                               end
                               
                           end
-                            loop=obj.loop;
-                            %assignin('base','ImageArray_L', ImageArray_L);
-                            %assignin('base','ImageArray_R', ImageArray_R);
+
+                            l=obj.loop;
+
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                             right=cat(3, ImageArray_R{:});
-                            %assignin('base','left', left);
-                            %assignin('base','right', right);
                       end
                       
                       % if loop is equal to 1, start at the beginning even
@@ -202,26 +161,19 @@ classdef ImageReader < handle
                       % start
                   else
                       for i=obj.counter:obj.counter+obj.N
-                          %disp(images_L(i).name)
                           ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
                           ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
                           index=index+1;
-                          %obj.counter = i;
-                          %disp(strcat(obj.joint_path_R, '\', images_L(i).name));
-                          %disp(obj.loop);
                           
                           obj.loop = 0;     %reset the loop value
-                          %l = obj.loop;
-                          %disp(obj.loop)
                       end
-                      loop=obj.loop;
-                      %assignin('base','ImageArray_L', ImageArray_L);
-                      %assignin('base','ImageArray_R', ImageArray_R);
+
+                      l=obj.loop;
+
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                       right=cat(3, ImageArray_R{:});
-                      %assignin('base','left', left);
-                      %assignin('base','right', right);
-                  end
+
+                  end %end obj.loop if statement
                   
                   
               else %if the obj.counter is not 1
@@ -241,42 +193,33 @@ classdef ImageReader < handle
                           obj.counter = 0;
                           j=obj.counter;
                           obj.loop=1;
-                          
-                          %disp(images_L(j).name);
-%                           assignin('base','ImageArray_L', ImageArray_L);
-%                           assignin('base','ImageArray_R', ImageArray_R);
-%                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
-%                           right=cat(3, ImageArray_R{:});
-%                           assignin('base','left', left);
-%                           assignin('base','right', right);
+
                           break;
-                          
                           
                       else
                           continue;
                           
                       end
                       
-                  end
-                  loop=obj.loop;
-                  %assignin('base','ImageArray_L', ImageArray_L);
-                  %assignin('base','ImageArray_R', ImageArray_R);
+
+                  end %end if for the counter
+                  l=obj.loop;
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
-                  right=cat(3, ImageArray_R{:});
-                  %assignin('base','left', left);
-                  %assignin('base','right', right);
-                      
+                  right=cat(3, ImageArray_R{:});         
               end
               
           catch
               
-              if obj.start > length(images_L)
-                  error('Start value exceeds the number of images. Value should be within 0 and %d.', length(images_L));
-                  
-                  
+              %this error happens if the path is wrong or there are no
+              %images there
+              if length(images_L) == 0
+                  error("Please verify the structure of the folders and that the path is correct"); 
+                  %wrong start value
+              elseif obj.start > length(images_L)
+                  error('Start value exceeds the number of images. Value should be within 0 and %d', length(images_L));          
               else
+                  %general syntax errors
                   error('Errors occur. Check value N or syntax');
-                  
               end
           end
           
