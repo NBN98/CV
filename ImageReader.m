@@ -123,7 +123,7 @@ classdef ImageReader < handle
                               
                           end
 
-                          l=obj.loop;
+                          loop=obj.loop;
 
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                           right=cat(3, ImageArray_R{:});
@@ -150,7 +150,7 @@ classdef ImageReader < handle
                               
                           end
 
-                            l=obj.loop;
+                            loop=obj.loop;
 
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                             right=cat(3, ImageArray_R{:});
@@ -168,7 +168,7 @@ classdef ImageReader < handle
                           obj.loop = 0;     %reset the loop value
                       end
 
-                      l=obj.loop;
+                      loop=obj.loop;
 
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                       right=cat(3, ImageArray_R{:});
@@ -203,7 +203,7 @@ classdef ImageReader < handle
                       
 
                   end %end if for the counter
-                  l=obj.loop;
+                  loop=obj.loop;
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                   right=cat(3, ImageArray_R{:});         
               end

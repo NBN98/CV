@@ -13,17 +13,17 @@ function [result] = render(frame,mask,bg,mode)
       % data type and complexity as the variable frame.
       maskedRgbImage = bsxfun(@times, frame, cast(mask, 'like', frame));
       result=maskedRgbImage;
-      
+
       % input = false;
   elseif mode == "background"
       % since background mode is the opposite of the foreground mound,
       % we only need to invert the bits in the mask
       maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
       result=maskedRgbImage;
-     
-   
 
-  elseif mode == 'overlay'
+
+
+  elseif mode == "overlay"
       %initialize the color matrices with zeros
       color1=zeros(size(frame));
       color2=zeros(size(frame));
@@ -33,17 +33,12 @@ function [result] = render(frame,mask,bg,mode)
       %use bsxfun to mask both of the resulting images and display them as
       %one
       transp=bsxfun(@times, color1, cast(~mask, 'like', color1))+bsxfun(@times, color2, cast(mask, 'like', color2));
-      
+
       %get the result
       result = imfuse(frame,transp,'blend','Scaling','joint');
-      
-      
-     
 
-  elseif mode == 'substitute'
+  elseif mode == "substitute"
           %get the background image from the config.m file
-
-      
           backgroundImage=bg;
           %now display the background image as the background and use the
           %mask to show the foreground of the current frame.
@@ -57,9 +52,9 @@ function [result] = render(frame,mask,bg,mode)
           rgbImage = maskedRgbImage + maskedBackground;
           result=rgbImage;
           mask=mask;
-         
-     
-  
+
+
+
 %   elseif mode == 'bonus'
 %      
 %           backframe=read(bg,v); %taking single frame of video
@@ -77,10 +72,10 @@ function [result] = render(frame,mask,bg,mode)
 %           maskedBack=bsxfun(@times, backframe, cast(~mask, 'like', backframe));
 %           result=maskedFrame+maskedBack;% adding for-and background together
 %           mask=mask;
-          
+
   else
       disp('Wrongt input')
-      
+
   end
   %end
 
