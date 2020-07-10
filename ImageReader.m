@@ -87,18 +87,23 @@ classdef ImageReader < handle
 
       
           %use the next function to load the next tensors in the data set 
-          function [left, right, l]=next(obj)
+          function [left, right, loop]=next(obj)
               joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
               images_L = dir(strcat(obj.joint_path_L, '\*.jpg'));
               images_R = dir(strcat(obj.joint_path_R, '\*.jpg'));
               
+              
+              file_count=dir([joint_path_L, '/*.jpg']);
+              number_of_files=length(file_count);
             
               % for every call, we increase the the class property counter
               obj.counter = obj.counter+1;
-              ImageArray_L=cell(1, 2292);
-              ImageArray_R=cell(1, 2292);
+              
+              %preallocate the memory (improve performance) 
+              ImageArray_L=cell(1, number_of_files);
+              ImageArray_R=cell(1, number_of_files);
               index=1;
                
           try    
@@ -117,7 +122,9 @@ classdef ImageReader < handle
                               index=index+1;
                               
                           end
+
                           l=obj.loop;
+
                           left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                           right=cat(3, ImageArray_R{:});
                           
@@ -142,7 +149,9 @@ classdef ImageReader < handle
                               end
                               
                           end
+
                             l=obj.loop;
+
                             left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                             right=cat(3, ImageArray_R{:});
                       end
@@ -158,7 +167,9 @@ classdef ImageReader < handle
                           
                           obj.loop = 0;     %reset the loop value
                       end
+
                       l=obj.loop;
+
                       left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)
                       right=cat(3, ImageArray_R{:});
 
@@ -190,6 +201,7 @@ classdef ImageReader < handle
                           
                       end
                       
+
                   end %end if for the counter
                   l=obj.loop;
                   left=cat(3, ImageArray_L{:}); %To show the image use figure, then montage(left)

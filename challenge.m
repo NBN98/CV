@@ -8,7 +8,7 @@ config
 loop=0;
 v=1;
 movie = VideoWriter(dst, 'Motion JPEG AVI');
-
+addpath('another folder');
 
 %pre allocate variable
 %movie_frames=cell(1, 3000);
@@ -43,8 +43,8 @@ while loop ~= 1
     set(gcf, 'Name', 'G21 Computer Vision Challenge', 'NumberTitle', 'Off')
     
   % Get next image tensors
-  [left, right, l]=ir.next();
-   loop=l;
+  [left, right, loop]=ir.next();
+   
    
   % Generate binary mask
   [mask]=segmentation(left,right); %sumImage);
@@ -54,7 +54,7 @@ while loop ~= 1
   
   % Render new frame
   if mode=='bonus'
-      [result, result2, mask, v] = render_bonus( frame, mask, bg, mode, v);
+      [result, v] = render_bonus( frame, mask, bg, mode, v);
   else
       result = render(frame,mask,bg,mode);
   end
