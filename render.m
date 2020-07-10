@@ -6,7 +6,7 @@ function [result] = render(frame,mask,bg,mode)
 
   %% Implementation of render function
   
-  
+
   if mode == "foreground"
       % applies the element-wise binary operation of arrays (specified
       % with @times) // cast function converts the mask to the same
@@ -38,6 +38,11 @@ function [result] = render(frame,mask,bg,mode)
       result = imfuse(frame,transp,'blend','Scaling','joint');
 
   elseif mode == "substitute"
+          [row, col , ~] = size(bg);
+          if row ~= size(frame,1) || col ~= size(frame,2)
+              bg=imresize(bg,[size(frame,1) size(frame,2)]);
+          end
+          %disp(size(bg) , size(frame));
           %get the background image from the config.m file
           backgroundImage=bg;
           %now display the background image as the background and use the
