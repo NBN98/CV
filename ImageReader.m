@@ -57,27 +57,27 @@ classdef ImageReader < handle
           if obj.L == 1
               % sub Directory 1 (search whether a folder has 'C1' in
               % name)
-              path_L = dir(strcat(obj.src, '\*C1*')); %returns struct array
-              obj.joint_path_L=strcat(path_L.folder,'\', path_L.name);
+              path_L = dir(fullfile(obj.src, '*C1*')); %returns struct array
+              obj.joint_path_L=fullfile(path_L.folder, path_L.name);
               
               
           else
               % sub directory 2
-              path_L = dir(strcat(obj.src, '\*C2*')); %returns struct array
-              obj.joint_path_L=strcat(path_L.folder,'\', path_L.name);
+              path_L = dir(fullfile(obj.src, '*C2*')); %returns struct array
+              obj.joint_path_L=fullfile(path_L.folder, path_L.name);
               
               
           end
           
           if R ==2
               %sub directory 2
-              path_R = dir(strcat(obj.src, '\*C2*')); 
-              obj.joint_path_R=strcat(path_R.folder,'\', path_R.name);
+              path_R = dir(fullfile(obj.src, '*C2*')); 
+              obj.joint_path_R=fullfile(path_R.folder, path_R.name);
               
           else
              % sub directory 3
-             path_R = dir(strcat(obj.src, '\*C3*')); 
-             obj.joint_path_R=strcat(path_R.folder,'\', path_R.name);
+             path_R = dir(fullfile(obj.src, '*C3*')); 
+             obj.joint_path_R=fullfile(path_R.folder, path_R.name);
              
           
           end
@@ -91,11 +91,11 @@ classdef ImageReader < handle
               joint_path_L = obj.joint_path_L;
              
               %loads the images into a struct array
-              images_L = dir(strcat(obj.joint_path_L, '\*.jpg'));
-              images_R = dir(strcat(obj.joint_path_R, '\*.jpg'));
+              images_L = dir(fullfile(obj.joint_path_L, '*.jpg'));
+              images_R = dir(fullfile(obj.joint_path_R, '*.jpg'));
               
               
-              file_count=dir([joint_path_L, '/*.jpg']);
+              file_count=dir(fullfile(joint_path_L, '*.jpg'));% does it work?
               number_of_files=length(file_count);
             
               % for every call, we increase the the class property counter
@@ -117,8 +117,8 @@ classdef ImageReader < handle
                           
                           for i=obj.start+1:obj.start+1+obj.N
                               %read the Left and Right images
-                              ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
-                              ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
+                              ImageArray_L{index}=imread(fullfile(obj.joint_path_L, images_L(i).name));
+                              ImageArray_R{index}=imread(fullfile(obj.joint_path_R, images_L(i).name));
                               index=index+1;
                               
                           end
@@ -131,8 +131,8 @@ classdef ImageReader < handle
                       % if start is not zero    
                       else
                           for i=obj.start+1:obj.start+obj.N+1
-                              ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
-                              ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
+                              ImageArray_L{index}=imread(fullfile(obj.joint_path_L, images_L(i).name));
+                              ImageArray_R{index}=imread(fullfile(obj.joint_path_R, images_L(i).name));
                               index=index+1;
                               %disp(strcat(obj.joint_path_R, '\', images_L(i).name))
                               obj.counter = i-obj.N;
@@ -161,8 +161,8 @@ classdef ImageReader < handle
                       % start
                   else
                       for i=obj.counter:obj.counter+obj.N
-                          ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(i).name));
-                          ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(i).name));
+                          ImageArray_L{index}=imread(fullfile(obj.joint_path_L, images_L(i).name));
+                          ImageArray_R{index}=imread(fullfile(obj.joint_path_R, images_L(i).name));
                           index=index+1;
                           
                           obj.loop = 0;     %reset the loop value
@@ -181,8 +181,8 @@ classdef ImageReader < handle
                   
                   for j=obj.counter:obj.counter+obj.N
                       %disp(images_L(j).name)
-                      ImageArray_L{index}=imread(strcat(obj.joint_path_L, '\', images_L(j).name));
-                      ImageArray_R{index}=imread(strcat(obj.joint_path_R, '\', images_L(j).name));
+                      ImageArray_L{index}=imread(fullfile(obj.joint_path_L, images_L(j).name));
+                      ImageArray_R{index}=imread(fullfile(obj.joint_path_R, images_L(j).name));
                       index=index+1;
                       %obj.counter = j;
                       %disp(strcat(obj.joint_path_R, '\', images_L(j).name))
