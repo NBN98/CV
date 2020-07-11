@@ -3,25 +3,26 @@ To use our project please follow the following steps:
 Inside the folder G21 you will find the file config.
 Edit the following to successfully run the challenge:
 
-src: Replace this variable with the folder where you have the Scene you want to mask.
+1) src: Replace this variable with the folder where you have the Scene you want to mask.
 example: src = "C:\User\Documents\P1E_S1"
 Note: please be sure to select the folder at that level and that it has the corresponding
 *_C1, *_c2, and *_C3 folders inside and nothing else. Otherwise, it may lead to errors.
 
-L: Replace this value with 1 or 2.
-R: Replace this value with 2 or 3.
+2) L: Replace this value with 1 or 2.
+3) R: Replace this value with 2 or 3.
 
-start: select the start value here, take into consideration that if you select a
+4) start: select the start value here, take into consideration that if you select a
 start value bigger than the amount of files in the folder, the program will show an error.
 
-bg: You can select here the background to be used in the substitute mode and the bonus mode(video).
+5) bg: You can select here the background to be used in the substitute mode and the bonus mode(video).
 Replace these paths with the paths where your image and/or video is located.
 example: "C:\User\Pictures\bg.jpg"
 example video: "C:\User\Videos\bgvideo.mp4"
 
-To run the program then just open the challenge.m file and click on Run.
-You can also type from the command: challenge.mask and then press enter.
-example: >>challenge.m
+To run the program:
+Option a) Just open the challenge.m file and click on Run.
+Option b) You can also type from the command: challenge.mask and then press enter.
+		  example: >>challenge.m
 
 
 ***************************************************************************************************
@@ -38,3 +39,7 @@ The GUI has different parameters that can be chosen by the user, these are:
 
 To run the program then click on the Start button and it will begin.
 The user can stop the program at any time by clicking on Stop
+
+Optional Features: 
+a) The user can loop the program to start again by marking the checkbox "loop".
+b) The user can decrease the time needed to run the program by disabling the checkbox "Show Rendering"

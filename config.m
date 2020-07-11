@@ -24,7 +24,7 @@ start = randi(1000);
 
 % Choose the number of succseeding frames
 %(think 5 works better)
-N = 4;
+N = 7;
 
 ir = ImageReader(src, L, R, start, N);
 

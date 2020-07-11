@@ -9,7 +9,11 @@ loop=0;
 v=1;
 movie = VideoWriter(dst, 'Motion JPEG AVI');
 addpath('another folder');
-
+%uncomment to enable adaptive background
+% global seg_times;
+% global GBackground;
+%end global variables adaptive background
+seg_times = 0;
 %pre allocate variable
 %movie_frames=cell(1, 3000);
 
