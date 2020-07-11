@@ -6,6 +6,7 @@ classdef ImageReader < handle
   %the following are the initial values for the variables that are needed
   %for the ImageReader class. This will be changed acording to the config.m
   %file or the GUI depending on the use. 
+  
   properties
       src='';
       L=0;
@@ -24,7 +25,7 @@ classdef ImageReader < handle
   methods
       % constructor with input parser
       function obj = ImageReader(src, L, R, varargin)
-         
+          global numberOfImages;
           p = inputParser;
           defaultstart = 0;
           defaultN = 1;
@@ -81,7 +82,9 @@ classdef ImageReader < handle
              
           
           end
-          
+          %get the total number of images, may be used in the progress bar
+          dirL = dir([obj.joint_path_L '\*.jpg']);
+          numberOfImages = length(dirL);
       end%end Image reader function
       
 
