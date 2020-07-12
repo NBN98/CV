@@ -51,3 +51,9 @@ Optional Feature:
 	* The user can decide which cameras are used with the L and R value
 	* The user can choose wheather the images are displayed while being processed. This will extend the runtime of the program by a lot
 	* For information about the status of the program there is console showing the outputs of the program
+	
+	
+***************************************************************************************************
+Additional Information:
+Trials led to a N number of 7. So 7 frames are used to calculate the background for the 8th image.
+Note when starting at Image 0, the first image that is masked is image 8. Afterwards, all the images are masked.
