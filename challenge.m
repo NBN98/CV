@@ -8,7 +8,6 @@ config
 loop=0;
 v=1;
 movie = VideoWriter(dst, 'Motion JPEG AVI');
-addpath('another folder');
 %uncomment to enable adaptive background
 % global seg_times;
 % global GBackground;
@@ -97,6 +96,7 @@ if store
     
     %v.Quality=85;
     %for K = 1 : length(movie_frames)
+    % check if result is not empty
     if ~isempty(result)
         movie_frames=result;
         open(movie)
@@ -105,7 +105,7 @@ if store
         break;
     end
     %end
-    %close(movie);
+   
     
 end
   

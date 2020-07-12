@@ -1,4 +1,4 @@
-function [mask, backgroundImage] = segmentation(left,right)
+function [mask] = segmentation(left,right)
 % Add function description here
 % 1. Takes in both tensors
 % 2. Calculates the mean of the images except from the last one
@@ -17,6 +17,7 @@ backgroundImage(:,:,1)=uint8(sum(left(:,:,1:3:end-4),3)/(size(left(:,:,1:3:end-4
 backgroundImage(:,:,2)=uint8(sum(left(:,:,2:3:end-3),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage(:,:,3)=uint8(sum(left(:,:,3:3:end-2),3)/(size(left(:,:,1:3:end-4),3)));
 backgroundImage=cat(3,backgroundImage(:,:,1),backgroundImage(:,:,2),backgroundImage(:,:,3));
+
 %Uncomment this to use adaptive background, only change a little frame by
 %frame.
 % alpha = 0.85;

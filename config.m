@@ -11,7 +11,10 @@ fontSize = 20;
  mail = {'noahbinh.nguyen@tum.de', 'fatbardh.smajli@tum.de', 'Roberto.ruano@tum.de', 'florian.butsch@tum.de', 'marta.caneda@tum.de'};
 
 
-%% Setup Image Reader
+%% Add path
+addpath('bonus')
+ 
+ %% Setup Image Reader
 % Specify Scene Folder
 src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P1E_S3";
 %src="C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vision\Challenge\ChokePoint\P2L_S4";
@@ -20,10 +23,10 @@ src = "C:\Users\noahb\Desktop\Elektrotechnik\Master\1. Semester SS20\Computer Vi
  R =3;
 
 % Choose a start point
-start = randi(1000);
+start = 0;
 
 % Choose the number of succseeding frames
-%(think 5 works better)
+%
 N = 7;
 
 ir = ImageReader(src, L, R, start, N);
@@ -40,12 +43,12 @@ mode = "bonus";
 
 % Load Virual Background/video
 if mode=="substitute";
-    bg = "Background\bg.jpg";
+    bg = "Backgrounds/bg.jpg";
 elseif mode=="bonus";
-    bg = "Background\wavesloop.mp4";
+    bg = "Backgrounds/wavesloop.mp4";
     
 else %default value
-    bg = "Background\bg.jpg";
+    bg = "Backgrounds/bg.jpg";
 end
 
 

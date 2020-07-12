@@ -1,4 +1,4 @@
-function [result] = render(frame,mask,bg,mode)
+function [result] = render(frame,mask,bg,render_mode)
   % Add function description here
   % render takes 5 inputs, where v is for the bonus task.
   % frame is always the last frame from the tensor and bg is the background
@@ -7,7 +7,7 @@ function [result] = render(frame,mask,bg,mode)
   %% Implementation of render function
   
 
-  if mode == "foreground"
+  if render_mode == "foreground"
       % applies the element-wise binary operation of arrays (specified
       % with @times) // cast function converts the mask to the same
       % data type and complexity as the variable frame.
@@ -15,15 +15,15 @@ function [result] = render(frame,mask,bg,mode)
       result=maskedRgbImage;
 
       % input = false;
-  elseif mode == "background"
-      % since background mode is the opposite of the foreground mode,
+  elseif render_mode == "background"
+      % since background render_mode is the opposite of the foreground render_mode,
       % we only need to invert the bits in the mask
       maskedRgbImage = bsxfun(@times, frame, cast(~mask, 'like', frame));
       result=maskedRgbImage;
 
 
 
-  elseif mode == "overlay"
+  elseif render_mode == "overlay"
       %initialize the color matrices with zeros
       color1=zeros(size(frame));
       color2=zeros(size(frame));
@@ -37,7 +37,7 @@ function [result] = render(frame,mask,bg,mode)
       %get the result
       result = imfuse(frame,transp,'blend','Scaling','joint');
 
-  elseif mode == "substitute"
+  elseif render_mode == "substitute"
           %checks whether background has the recommended size, if not
           %resize
           [row, col , ~] = size(bg);
@@ -62,7 +62,7 @@ function [result] = render(frame,mask,bg,mode)
 
 
 
-%   elseif mode == 'bonus'
+%   elseif render_mode == 'bonus'
 %      
 %           backframe=read(bg,v); %taking single frame of video
 %           

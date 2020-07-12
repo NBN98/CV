@@ -25,7 +25,7 @@ classdef ImageReader < handle
   methods
       % constructor with input parser
       function obj = ImageReader(src, L, R, varargin)
-          global numberOfImages;
+          %global numberOfImages;
           p = inputParser;
           defaultstart = 0;
           defaultN = 1;

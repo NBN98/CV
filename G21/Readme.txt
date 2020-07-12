@@ -20,15 +20,10 @@ Background video should be mp4.
 example: "C:\User\Pictures\bg.jpg"
 example video: "C:\User\Videos\bgvideo.mp4"
 
-6) showImage: If showImage is true, the rendernig process (displaying frame left, right and result) will be shown (longer runtime)
-else the rendering process will not be shown (better runtime)
-
 To run the program:
 Option a) Just open the challenge.m file and click on Run.
 Option b) You can also type from the command: challenge and then press enter.
 		  example: >>challenge
-
-After all images have been masked, the video will be generated. Stopping challenge before it reaches the end of the folder, will lead to not generating the video.
 
 
 ***************************************************************************************************

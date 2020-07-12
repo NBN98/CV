@@ -1,0 +1,6 @@
+Starting Calculations, Mode: overlay
+Starting at Frame: 400
+Displaying Images on screen, runtime increased
+Calculations completed
+Video exported
+Elapsed time: 0 minutes and 41.293 seconds
