@@ -1,5 +1,0 @@
-Starting Calculations, Mode: substitute
-Starting at Frame: 2280
-Calculations completed
-Video exported
-Elapsed time: 0 minutes and 24.2685 seconds
