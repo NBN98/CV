@@ -1,1 +1,0 @@
-appdesigner("Foreground_Segmentator");
